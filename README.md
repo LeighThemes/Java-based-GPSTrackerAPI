@@ -1,5 +1,5 @@
 # Java-based-GPSTrackerAPI
-This is a modification for the NASA world wind java sdk that allows users to implement a GPS tracker using the MATLABS API and app store application to track a persons location globally.
+This is a modification for the NASA world wind java sdk (https://github.com/NASAWorldWind/WorldWindJava) that allows users to implement a GPS tracker using the MATLABS API and app store application to track a persons location globally.
 
 Steps the replicate:
 
