@@ -111,11 +111,11 @@ public class GPSTracksAPI extends ApplicationTemplate{
 			new java.util.Timer().schedule(
 			new java.util.TimerTask() {
 				@Override
-				public void run () (
+				public void run () {
 				try {
 				// AppleReader();
 				try(FileWriter writer = new FileWriter ("C:\\Users\\5G Server\\Desktop\\Apple.txt")) {
-					String valuel20 = reverseTheOrderWords (URIReader ());
+					String valuel20 = reverseTheOrderOfWords(URLReader());
 					writer.write(valuel20);
 				}
 				catch (IOException e) {
@@ -127,184 +127,157 @@ public class GPSTracksAPI extends ApplicationTemplate{
 				e.printStackTrace();
 			}
 		}
-	},
-	5000
-	);
+		},
+		5000
+		);
+		}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}catch(InterruptedException ex){
+			Logger.getLogger(GPSTracks.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		}
+		},
+		2500
+		);
+		//String valuel20 = reverseTheOrderOfozds (URLReader ()) ;
+		//System.out.println ("HERE: " + AppleReader ());
 	}
-	}
-	catch (IOException e) {
-		e.printStackTrace();
-	}catch(InterruptedException ex){
-		Logger.getLogger(GPSTracks.class.getName()).log(Level.SEVERE, null, ex);
-	}
-	}
-	},
-	2500
-	);
-	//String valuel20 = reverseTheOrderOfozds (URLReader ()) ;
-	//System.out.println ("HERE: " + AppleReader ());
-}
 
-public String reverseTheOrder0Words(String sentence) {
-	if (sentence == null) {
-		return null;
+	public String reverseTheOrder0Words(String sentence) {
+		if (sentence == null) {
+			return null;
+		}
+		StringBuilder output = new StringBuilder();
+		String[] words = sentence.split (",");
+	
+		for (int i = words.length - 1; i >= 0; i--) {
+			output.append(words [i]);
+			output.append (",");
+		}
+		return output.toString().trim();
 	}
-	StringBuilder output = new StringBuilder();
-	String[] words = sentence.split (",");
-
-	for (int i = words.length - 1; i >= 0; i--) {
-		output.append(words [i]);
-		output.append (",");
+	
+	private Position LoopFunction() throws IOException{
+		// AppleReader();
+		MarkerLayer layer = this.buildTracksLayer();
+		// This is for the detailed map layer
+		insertBeforeCompass (this.getWwd (), layer);
+		this.getWwd().addSelectListener (new SelectListener()
+		{public void selected (SelectEvent event) 
+			{if(event. getTopObject () != null)
+				{if(event.getTopPickedObject().getParentLayer() instanceof MarkerLayer)
+					{}}}});return null;
 	}
-	return output.toString().trim();
-}
-
-private Position LoopFunction() throws IOException{
-	// AppleReader();
-	MarkerLayer layer = this.buildTracksLayer();
-	// This is for the detailed map layer
-	insertBeforeCompass (this.getWwd (), layer);
-	this.getWwd().addSelectListener (new SelectListener()
-	{public void selected (SelectEvent event) 
-		{if(event. getTopobject () != null)
-			{if(event.getTopPickedobject().getParentLayer() instanceof MarkerLayer)
-				{}}}});return null;
-}
-
-public void enableNAIPLayer () {
-	LayerList list = this.getWwd().getModel().getLayers();
-	ListIterator iterator = list.listIterator();
-	while (iterator.hasNext ()) 
-	{
-		Layer layer = (Layer) iterator.next();
-		if (layer. getName (). contains ("NAIP"))
+	
+	public void enableNAIPLayer () {
+		LayerList list = this.getWwd().getModel().getLayers();
+		ListIterator iterator = list.listIterator();
+		while (iterator.hasNext ()) 
 		{
-			// Presents the nice view of the United States 
-			layer.setEnabled(true); 
-			break;
+			Layer layer = (Layer) iterator.next();
+			if (layer. getName (). contains ("NAIP"))
+			{
+				// Presents the nice view of the United States 
+				layer.setEnabled(true); 
+				break;
+			}
 		}
 	}
-}
-
-private static String URLReader() throws I0Exception {
-	URL oracle = new URL("https://api.thingspeak.com/channels/1228891/feeds.json?api key=IUT66601");
-	BufferedReader in = new BufferedReader(
-	new InputStreamReader (oracle.openStream()));
-	Position balloonPosition = null;
-	String inputLine;
-	String APIValue = null;
-	while ((inputLine = in.readLine()) != null){
-		APIValue = inputLine;
+	
+	private static String URLReader() throws I0Exception {
+		URL oracle = new URL("https://api.thingspeak.com/channels/1228891/feeds.json?api key=IUT66601");
+		BufferedReader in = new BufferedReader(
+		new InputStreamReader (oracle.openStream()));
+		Position balloonPosition = null;
+		String inputLine;
+		String APIValue = null;
+		while ((inputLine = in.readLine()) != null){
+			APIValue = inputLine;
+			return APIValue;
+		}
+		in.close();
+		
 		return APIValue;
 	}
-	in.close();
 	
-	return APIValue;
-}
-
-private static Position AppleReader() throws IOException {
-	// To get values from value.txt, just change the location below
-	String fileName = "C:\\Users\\5G_Server\\Desktop\\Apple.txt";
-	Position balloonPosition = null;
-	File file = new File (fileName);
-	FileReader fr = new FileReader (file);
-	BufferedReader br = new BufferedReader(fr);
-	String line;
-	System.out.println("Reading text file using FileReader");
-	while ((line = br.readLine()) != null){
-		//process the line
-		String [] strs = line.split ("\"");
-		String one = strs[13];
-		String two = strs[9];
-		double value1 = Double.parseDouble(one);
-		double value2 = Double.parseDouble(two);
-		System.out.println(one);
-		System.out.println (two);
-		balloonPosition = Position. fromDegrees (value2, value1);
+	private static Position AppleReader() throws IOException {
+		// To get values from value.txt, just change the location below
+		String fileName = "C:\\Users\\5G_Server\\Desktop\\Apple.txt";
+		Position balloonPosition = null;
+		File file = new File (fileName);
+		FileReader fr = new FileReader (file);
+		BufferedReader br = new BufferedReader(fr);
+		String line;
+		System.out.println("Reading text file using FileReader");
+		while ((line = br.readLine()) != null){
+			//process the line
+			String [] strs = line.split ("\"");
+			String one = strs[13];
+			String two = strs[9];
+			double value1 = Double.parseDouble(one);
+			double value2 = Double.parseDouble(two);
+			System.out.println(one);
+			System.out.println (two);
+			balloonPosition = Position. fromDegrees (value2, value1);
+			return balloonPosition;
+		}
+		br.close();
+		fr.close();
 		return balloonPosition;
 	}
-	br.close();
-	fr.close();
-	return balloonPosition;
-}
-
-protected void makeAnnotationBalloon () throws IOException {
-	//Position Alpha = myMethod ():
-	Balloon balloon = new ScreenAnnotationBalloon ("<b›Current GPS Location:</b›" + AppleReader(),
-	new Point (50, 300));
-	BalloonAttributes attrs = new BasicBalloonAttributes();
-	// Size the balloon to fit its text, place its lower-left corner at the point, put event padding between
-	// balloon's text and its sides, and disable the balloon's leader. attrs. setSize (Size. fromPixels (300, 50));
-	attrs.setOffset (new Offset (0d, 0d, AVKey. PIXELS, AVKey. PIXELS)); 
-	attrs.setInsets (new Insets (10, 10, 10, 10)); 
-	attrs.setLeaderShape (AVKey. SHAPE_NONE);
-	// Configure the balloon's colors to display White text over a semi-transparent black background.
-	attrs.setTextColor(Color. WHITE); 
-	attrs.setInteriorMaterial(Material. BLACK);
-	attrs.setInteriorOpacity(0.6); 
-	attrs.setOutlineMaterial(Material.WHITE);
-	balloon.setAttributes(attrs);
-	this.layer.addRenderable(balloon);
-}
-
-protected MarkerLayer buildTracksLayer () {
+	
+	protected void makeAnnotationBalloon () throws IOException {
+		//Position Alpha = myMethod ():
+		Balloon balloon = new ScreenAnnotationBalloon ("<b›Current GPS Location:</b›" + AppleReader(),
+		new Point (50, 300));
+		BalloonAttributes attrs = new BasicBalloonAttributes();
+		// Size the balloon to fit its text, place its lower-left corner at the point, put event padding between
+		// balloon's text and its sides, and disable the balloon's leader. 
+		attrs.setSize(Size.fromPixels (300, 50));
+		attrs.setOffset (new Offset (0d, 0d, AVKey. PIXELS, AVKey. PIXELS)); 
+		attrs.setInsets (new Insets (10, 10, 10, 10)); 
+		attrs.setLeaderShape (AVKey. SHAPE_NONE);
+		// Configure the balloon's colors to display White text over a semi-transparent black background.
+		attrs.setTextColor(Color. WHITE); 
+		attrs.setInteriorMaterial(Material. BLACK);
+		attrs.setInteriorOpacity(0.6); 
+		attrs.setOutlineMaterial(Material.WHITE);
+		balloon.setAttributes(attrs);
+		this.layer.addRenderable(balloon);
+	}
+	
+	protected MarkerLayer buildTracksLayer () {
 		try {
-		
-		GpxReader reader = new GpxReader();
-		reader.readStream(WWIO. openFileOrResourceStream(TRACK_PATH, this.getClass ()));
-		
-		//System. out.printE ("THIS IS THE " + TRACK PATH);
-		Iterator<Position> positions = reader. getTrackPositionIterator ();
-		
-		//This gives the sphere its characteristics
-		BasicMarkerAttributes attrs = new BasicMarkerAttributes (Material.RED, BasicMarkerShape. SPHERE, 1d);
-		ArrayList<Marker> markers = new ArrayList<Marker> (); markers.add (new BasicMarker (AppleReader (), attrs));
-		MarkerLayer layer = new MarkerLayer (markers) ;
-		layer.setOverrideMarkerElevation (true);
-		layer.setElevation (0);
-		layer.setEnablePickSizeReturn (true);
-		String GPSlocation = "GPS " + "Lat § Lon: " + AppleReader();
-		System. out.printf (GPSlocation);
-		layer. setValue (AVKey. DISPLAY_NAME, GPSlocation);
-		return layer;
+			GpxReader reader = new GpxReader();
+			reader.readStream(WWIO. openFileOrResourceStream(TRACK_PATH, this.getClass ()));
+			//System. out.printE ("THIS IS THE " + TRACK PATH);
+			Iterator<Position> positions = reader. getTrackPositionIterator ();
+			//This gives the sphere its characteristics
+			BasicMarkerAttributes attrs = 
+			new BasicMarkerAttributes (Material.RED, BasicMarkerShape. SPHERE, 1d);
+			ArrayList<Marker> markers = new ArrayList<Marker> (); 
+			markers.add (new BasicMarker (AppleReader (), attrs));
+			MarkerLayer layer = new MarkerLayer (markers) ;
+			layer.setOverrideMarkerElevation (true);
+			layer.setElevation (0);
+			layer.setEnablePickSizeReturn (true);
+			String GPSlocation = "GPS " + "Lat § Lon: " + AppleReader();
+			System.out.printf (GPSlocation);
+			layer.setValue(AVKey. DISPLAY_NAME, GPSlocation);
+			return layer;
 		}
-		
-		catch (ParserConfigurationException e){e.printStackTrace ();}
-		
-		catch (SAXException e) {e.printStackTrace ();}
-		
-		catch (IOException e) {e.printStackTrace () ;}
-		
+		catch (ParserConfigurationException e){e.printStackTrace();}
+		catch (SAXException e) {e.printStackTrace();}
+		catch (IOException e) {e.printStackTrace() ;}
+			
 		return null;
+		}
 	}
-}
-
-
-BasicMarkerAttributes attrs = new BasicMarkerAttributes (Material. RED, BasicMarkerShape. SPHERE, 1d);
-
-	ArrayList<Marker> markers = new ArrayList<Marker>();
-	markers.add(new BasicMarker (AppleReader(), attrs));
-	MarkerLayer layer = new MarkerLayer (markers);
-	layer.setOverrideMarkerElevation (true);
-	layer.setElevation (0);
-	layer.setEnablePickSizeReturn (true);
 	
-	String GPSlocation = "GPS " + "Lat & Lon: " + AppleReader();
-	
-	System.out.printf(GPSlocation);
-	layer.setValue(AVKey. DISPLAY_NAME, GPSlocation); 
-	return layer;
-	
-	catch (ParserConfigurationException e) {e.printStackTrace () ;}
-	catch (SAXException e) {e.printStackTrace ();}
-	catch (IOException e) {e.printStackTrace ();}
-	
-	return null;
+	public static void main (String[] args) {
+		ApplicationTemplate. start ("WorldWind Tracks", AppFrame.class);
 	}
+
 }
-
-public static void main (String[] args) {
-
-	ApplicationTemplate. start ("WorldWind Tracks", AppFrame.class);
-}
-
