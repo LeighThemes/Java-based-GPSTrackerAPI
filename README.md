@@ -1,6 +1,6 @@
 **<h1>Java-based GPSTrackerAPI</h1>**
 
-Java-based GPSTrackerAPI is a specialized modification tailored for the NASA World Wind Java SDK, available at NASA World Wind Java SDK. This enhancement empowers developers to effortlessly implement GPS tracking functionality using the MATLABS API, making it possible to track an individual's location on a global scale.
+Java-based GPSTrackerAPI is a specialized modification tailored for the NASA World Wind Java SDK, available at (https://github.com/NASAWorldWind/WorldWindJava). This enhancement empowers developers to effortlessly implement GPS tracking functionality using the MATLABS API, making it possible to track an individual's location on a global scale.
 
 Please note that the process of integrating this modification may require adaptations depending on your operating system and integrated development environment (IDE). It is crucial to be aware that this code was designed for the 2020 version of WorldWindJava, and potential conflicts may arise due to subsequent SDK updates.
 
